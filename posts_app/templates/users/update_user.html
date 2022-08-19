@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Update User{% endblock %}
+
+
+{% block content %}
+
+<h2 style="text-align: center;">Register</h2>
+    <div class="flex-wrapper flex-evenly fl">
+        <form class="flex-wrapper flex-column flex-ends flex-gap" action="/users/{{session.user_id}}/edit" method="POST">
+            <label>
+                First Name:
+                <input type="text" name="first_name" value="{{data.first_name}}">
+            </label>
+            <label>
+                last Name:
+                <input type="text" name="last_name" value="{{data.last_name}}">
+            </label>
+            <label>
+                Email:
+                <input type="email" name="email" value="{{data.email}}">
+            </label>
+            <input type="submit" value="Update">
+        </form>
+    </div>
+
+{% endblock %}

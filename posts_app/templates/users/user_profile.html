@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{user.return_full_name()}}{% endblock %}
+
+
+{% block content %}
+
+    <h1>{{user.return_full_name()}}</h1>
+    {% if session.user_id == user.id %}
+        <button><a href="/users/{{user.id}}/edit">Update Profile</a></button>
+        <button><a href="/users/{{user.id}}/delete">Delete Account</a></button>
+    {% endif %}
+    <br><br><br>
+    <div style="border: 1px solid black; width:60%; padding:20px;">
+        {% if user.posts[0].content == None %}
+            <h3>User hasn't created any posts yet</h3>
+        {% else %}
+            {% for post in user.posts %}
+                <div style="border-bottom: 1px solid darkgray; margin:10px 0px;">
+                    <h3>{{post.content}}</h3>
+                    <p>posted @ {{post.created_at.strftime('%B %d, %y')}}</p>
+                    <button><a href="/post/{{post.id}}">View</a></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endblock %}

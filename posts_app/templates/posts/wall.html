@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+
+{% block title %}The All Wall{% endblock %}
+
+
+{% block content %}
+
+    <h1>Welcome, {{session.user_name}}</h1>
+    <h2 style="text-align: center;">The All Wall</h2>
+
+    <div class="flex-wrapper flex-evenly">
+        <form class="flex-wrapper flex-column" style="width:60%" action="/create_post" method="POST">
+            <textarea name="content" cols="30" rows="10" placeholder="Have something to say?"></textarea>
+            <input style="width:fit-content;" type="submit" value="Create Post">
+        </form>
+    </div>
+
+    <br><hr><br>
+    <div style="border: 1px solid black; width:60%; padding:20px; margin:0 auto;">
+        {% for post in posts %}
+            <div id='{{post.id}}' style="border-bottom: 1px solid darkgray; margin:10px 0px;">
+                <h3>{{post.user.return_full_name()}}</h3>
+                <h3>{{post.content}}</h3>
+                <p>posted @ {{post.created_at.strftime('%B %d, %y')}}</p>
+                <div class="flex-wrapper flex-between">
+                    <div>
+                        {% if post.user_id != session.user_id %}
+                            <button><a href="/like/{{post.id}}">Like</a></button>
+                        {% endif %}
+                        {% if post.likes > 0 %}
+                            {{post.likes}} likes
+                        {% endif %}
+                    </div>
+                    {% if post.user_id == session.user_id %}
+                        <div>
+                            <button onclick="toggle_form({{post.id}})" id="edit_btn{{post.id}}">Edit</button>
+                            <button onclick="toggle_form({{post.id}})">
+                                <a href="/post/{{post.id}}/delete">Delete</a>
+                            </button>
+                        </div>
+                    {% else %}
+                        <button><a href="/post/{{post.id}}">View</a></button>
+                    {% endif %}
+                </div>
+                <div id="edit_form{{post.id}}" class="hidden">
+                    <form class="flex-wrapper flex-column" style="width:60%" action="/post/{{post.id}}/edit" method="POST">
+                        <textarea name="content" cols="30" rows="10">{{post.content}}</textarea>
+                        <input style="width:10%" type="submit" value="Edit">
+                    </form>
+                    <button onclick="toggle_form({{post.id}})">Cancel</button>
+                </div>
+                <br><br>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

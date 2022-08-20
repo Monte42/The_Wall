@@ -53,8 +53,8 @@ class Like:
         WHERE posts.id = %(post_id)s;
         '''
         results = connectToMySQL(db).query_db(query, data)
+        all_post_likes = []
         if results:
-            all_post_likes = []
             this_like = cls(results[0])
             for post_like in results:
                 post_data = {
@@ -76,8 +76,7 @@ class Like:
                 this_like.user = user.User(user_data)
                 this_like.post = post.Post(post_data)
                 all_post_likes.append(this_like)
-            return all_post_likes
-        return False
+        return all_post_likes
 
 
 

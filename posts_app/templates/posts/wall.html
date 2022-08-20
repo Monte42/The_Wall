@@ -19,7 +19,7 @@
     <div style="border: 1px solid black; width:60%; padding:20px; margin:0 auto;">
         {% for post in posts %}
             <div id='{{post.id}}' style="border-bottom: 1px solid darkgray; margin:10px 0px;">
-                <h3>{{post.user.return_full_name()}}</h3>
+                <h3><a href="users/{{post.user.id}}">{{post.user.return_full_name()}}</a></h3>
                 <h3>{{post.content}}</h3>
                 <p>posted @ {{post.created_at.strftime('%B %d, %y')}}</p>
                 <div class="flex-wrapper flex-between">

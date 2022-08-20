@@ -35,4 +35,4 @@ class MySQLConnection:
 def connectToMySQL(db):
     return MySQLConnection(db)
 
-db = 'Post_n_Likes'
+db = 'post_n_likes'

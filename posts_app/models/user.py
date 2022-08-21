@@ -89,11 +89,15 @@ class User:
     def get_user_by_id(cls,id):
         data = {'id':id}
         query = '''
-        SELECT * FROM users
-        LEFT JOIN posts
+        SELECT users.id, first_name, last_name,
+        email,password,users.created_at,users.updated_at,
+        posts.id,content,posts.created_at,posts.updated_at,
+        posts.user_id,likes.post_id
+        FROM users
+        JOIN posts
         ON posts.user_id = users.id
         LEFT JOIN likes
-        ON likes.user_id = users.id
+        ON likes.post_id = posts.id
         WHERE users.id = %(id)s
         GROUP BY posts.id;
         '''
@@ -223,3 +227,17 @@ class User:
         if 'password' in form_data:
             parsed_data['password'] = bcrypt.generate_password_hash(form_data['password'])
         return parsed_data
+
+
+
+# SELECT users.id fist_name, last_name,
+# email,password,users.created_at,users.updated_at,
+# posts.id,content,posts.created_at,posts.updated_at,
+# posts.user_id,likes.post_id
+# FROM posts
+# LEFT JOIN users
+# ON posts.user_id = users.id
+# LEFT JOIN likes
+# ON likes.post_id = posts.id
+# WHERE users.id = 1
+# GROUP BY posts.id;

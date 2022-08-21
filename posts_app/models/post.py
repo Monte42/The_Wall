@@ -51,8 +51,10 @@ class Post:
     @classmethod
     def get_all_posts(cls):
         query = '''
-        SELECT *, 
-        COUNT(likes.post_id) 
+        SELECT users.id,first_name,last_name,
+        email,password,users.created_at,users.updated_at,
+        posts.id,posts.user_id,content,posts.created_at,posts.updated_at,
+        COUNT(likes.post_id)
         AS like_count
         FROM posts
         JOIN users
@@ -63,19 +65,20 @@ class Post:
         ORDER BY posts.created_at
         DESC;
         '''
+
         all_posts = []
         results = connectToMySQL(db).query_db(query)
         if results:
             for each_post in results:
                 this_post = cls(each_post)
                 user_data = {
-                    'id': each_post['users.id'],
+                    'id': each_post['id'],
                     'first_name': each_post['first_name'],
                     'last_name': each_post['last_name'],
                     'email': each_post['email'],
                     'password': each_post['password'],
-                    'created_at': each_post['users.created_at'],
-                    'updated_at': each_post['users.updated_at']
+                    'created_at': each_post['created_at'],
+                    'updated_at': each_post['updated_at']
                 }
                 this_post.user = user.User(user_data)
                 this_post.likes = each_post['like_count']

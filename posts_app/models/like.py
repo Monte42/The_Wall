@@ -45,7 +45,7 @@ class Like:
     def get_likes_by_post(cls,post_id):
         data = {'post_id': post_id,}
         query = '''
-        SELECT * from posts
+        SELECT * FROM posts
         JOIN likes
         ON likes.post_id = posts.id
         JOIN users
